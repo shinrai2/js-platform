@@ -71,6 +71,7 @@ func NewMaster() *vmMaster {
 	go func() {
 		for in := range master.inCh {
 			if master.current == NotSelected {
+				fmt.Println("Undefined operation.")
 				// DO NOTHING.
 			} else {
 				master.vms[master.current].inCh <- in

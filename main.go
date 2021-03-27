@@ -23,6 +23,13 @@ func main() {
 		}
 		fmt.Println("# Output end.")
 	})
+	ioHandle.channelHandleIn("help.", func(_ string) {
+		fmt.Println("new. - 创建js虚拟机")
+		fmt.Println("list. - 列出虚拟机列表")
+		fmt.Println("current. - 当前指向")
+		fmt.Println("switch.{id} - 切换虚拟机")
+		fmt.Println("exit. - 退出程序")
+	})
 	ioHandle.channelHandleIn("new.", func(_ string) {
 		fmt.Println("ID:", master.CreateVM())
 	})
