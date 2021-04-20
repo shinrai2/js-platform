@@ -7,6 +7,7 @@ js虚拟机封装和管理器
 import (
 	"fmt"
 	"github.com/robertkrimen/otto"
+	"js-platform/http"
 	"sync"
 	"time"
 )
@@ -53,6 +54,17 @@ func vmCreate() (chan string, chan string) {
 				}
 				return otto.UndefinedValue()
 			},
+		})
+		vm.VM().Set("httpRequest", func(c otto.FunctionCall) otto.Value {
+			xhr := http.XHR{}
+			xhr.SetUrl(c.ArgumentList[1].String())
+			resp := xhr.Http(c.ArgumentList[0].String())
+			var arguments []interface{}
+			arguments = make([]interface{}, 3)
+			arguments[0] = c.ArgumentList[2]
+			arguments[2] = resp
+			vm.ottoVm.Call(`Function.call.call`, nil, arguments...)
+			return otto.UndefinedValue()
 		})
 		for in := range inCh {
 			vm.VM().Run(in)
